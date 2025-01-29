@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot REST API Development Standards</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Backend REST API Development with Spring Boot</h1>
+        <p>A guide to coding standards for scalable, maintainable, and readable APIs</p>
+    </header>
+
+    <section class="content">
+        <h2>1. Project Structure</h2>
+        <p>Adopt a clear and standardized layered architecture for your Spring Boot project:</p>
+        <pre>
+        src/main/java
+        └── com
+            └── example
+                └── app
+                    ├── controller
+                    ├── service
+                    ├── repository
+                    ├── model
+                    └── dto
+        </pre>
+
+        <h2>2. Code Naming Conventions</h2>
+        <ul>
+            <li><strong>Class Names:</strong> Use <code>PascalCase</code> (e.g., UserController, ProductService).</li>
+            <li><strong>Method Names:</strong> Use <code>camelCase</code> (e.g., findByName(), createOrder()).</li>
+            <li><strong>Variable Names:</strong> Use <code>camelCase</code> for variables.</li>
+            <li><strong>Constants:</strong> Use <code>UPPER_SNAKE_CASE</code> (e.g., MAX_RETRIES, DEFAULT_TIMEOUT).</li>
+        </ul>
+
+        <h2>3. Controller Layer</h2>
+        <p>Define REST endpoints and handle HTTP requests in a controller class:</p>
+        <pre>
+        @RestController
+        @RequestMapping("/api/v1/users")
+        public class UserController {
+            @GetMapping("/{id}")
+            public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+                // Implementation
+            }
+        }
+        </pre>
+
+        <h2>4. Service Layer</h2>
+        <p>Place business logic inside services and handle transactions:</p>
+        <pre>
+        @Service
+        @Transactional
+        public class UserService {
+            public UserDTO getUserById(Long id) {
+                // Implementation
+            }
+        }
+        </pre>
+
+        <h2>5. Repository Layer</h2>
+        <p>Use Spring Data JPA to interact with the database:</p>
+        <pre>
+        @Repository
+        public interface UserRepository extends JpaRepository<User, Long> {
+            Optional<User> findByEmail(String email);
+        }
+        </pre>
+
+        <h2>6. Error Handling</h2>
+        <p>Use <code>@ControllerAdvice</code> for global exception handling:</p>
+        <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler(EntityNotFoundException.class)
+            public ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFoundException ex) {
+                return new ResponseEntity<>(new ErrorResponse("Not Found", ex.getMessage()), HttpStatus.NOT_FOUND);
+            }
+        }
+        </pre>
+
+        <!-- Add More Sections Here -->
+
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Spring Boot REST API Development Guide</p>
+      <p class="author-footer">Created by: <strong>Amit Negi</strong></p> <!-- Add your name here -->
+  </footer>
+
+
+
+</body>
+</html>
